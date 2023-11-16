@@ -1,6 +1,6 @@
 # Use the official Node.js 16 image.
 # https://hub.docker.com/_/node
-FROM node:16
+FROM node:21
 
 # Create and change to the app directory.
 WORKDIR /usr/src/app
@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 8354
 
 # Run the web service on container startup.
-CMD [ "node", "server.js" ]
+CMD [ "node", "app.js" ]
