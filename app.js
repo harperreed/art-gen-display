@@ -27,6 +27,10 @@ io.on('connection', (socket) => {
   });
 });
 
+// Utility function to get a random element from an array
+function getRandomElement(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
 
 
 function generatePrompt() {
@@ -36,11 +40,11 @@ function generatePrompt() {
   const styles = ["vibrant", "surreal", "photorealistic", "painting-like", "collage"];
   const artistStyles = ["Jean-Michel Basquiat", "Marlene Dumas", "keith haring", "picasso", "Yayoi Kusama", "hiroshi nagai", "murakami", "ansel adams", "robert maplethorpe", "Hiroshi Sugimoto"];
 
-  const randomType = types[Math.floor(Math.random() * types.length)];
-  const randomFeeling = feelings[Math.floor(Math.random() * feelings.length)];
-  const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
-  const randomStyle = styles[Math.floor(Math.random() * styles.length)];
-  const randomArtistStyle = artistStyles[Math.floor(Math.random() * artistStyles.length)];
+  const randomType = getRandomElement(types);
+  const randomFeeling = getRandomElement(feelings);
+  const randomKeyword = getRandomElement(keywords);
+  const randomStyle = getRandomElement(styles);
+  const randomArtistStyle = getRandomElement(artistStyles);
 
   return `a black and white ${randomType} of a ${randomFeeling} ${randomKeyword} in ${randomStyle} style made by ${randomArtistStyle} for display in a museum `;
 }
