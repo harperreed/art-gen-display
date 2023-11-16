@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Image with Socket.IO</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        .fullscreen-image {
+            width: 100%;
+            height: 100%;
+            background: url('your-image.jpg') no-repeat center center;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="fullscreen-image" id="background"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('image changed', (newImageUrl) => {
+            document.getElementById('background').style.backgroundImage = `url(${newImageUrl})`;
+        });
+    </script>
+</body>
+</html>
