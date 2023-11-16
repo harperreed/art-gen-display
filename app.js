@@ -14,6 +14,10 @@ const cacheDir = path.join(__dirname, 'cache');
 
 
 const app = express();
+// Set EJS as the templating engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 const server = http.createServer(app);
 const io = socketIo(server);
 const port = 8354;
