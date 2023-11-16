@@ -1,14 +1,16 @@
 {
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "path": "^0.12.7",
     "replicate": "^0.21.1",
     "socket.io": "^4.7.2"
   },
   "name": "artboard",
   "version": "1.0.0",
   "main": "app.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
