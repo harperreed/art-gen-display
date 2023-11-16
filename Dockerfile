@@ -15,7 +15,7 @@ RUN npm install --only=production
 COPY . .
 
 # Expose port 3000 for the application
-EXPOSE 3000
+EXPOSE 8354
 
 # Run the web service on container startup.
 CMD [ "node", "server.js" ]
