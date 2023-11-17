@@ -80,6 +80,8 @@ class Server {
 
       const showClock = process.env.SHOW_CLOCK;
       const showPrompt = process.env.SHOW_PROMPT;
+      const showProgressBar = process.env.SHOW_PROGRESS_BAR;
+
       console.log(showClock, showPrompt)
       if (showClock === "True") {
         socket.emit('show clock', true);
@@ -87,6 +89,10 @@ class Server {
 
       if (showPrompt) {
         socket.emit('show prompt', true);
+      }
+
+      if (showProgressBar) {
+        socket.emit('show progressbar', true);
       }
 
     });

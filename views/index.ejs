@@ -64,24 +64,20 @@
             /* Align to the left side */
             width: 100vw;
             /* Full width of the viewport */
-            height: 2px;
+            height: 4px;
             /* Adjust height as needed */
-            background-color: #dddddd5e;
+            background-color: #dddddd1c;
             /* Background of the container */
-            mix-blend-mode: difference;
-
-
-
+            /* mix-blend-mode: difference; */
+            display: none;
         }
 
         #progressBar {
             height: 100%;
             width: 0;
             /* Initial width is 0 */
-            background-color: #4caf4f99;
+            background-color: #00ff08aa;
             /* Initial color of the progress bar */
-
-
 
         }
     </style>
@@ -169,6 +165,10 @@
         socket.on('show prompt', () => {
             console.log('Showing Prompt');
             document.getElementById('prompt').style.display = 'block';
+        });
+        socket.on('show progressbar', () => {
+            console.log('Showing Progress Bar');
+            document.getElementById('progressBarContainer').style.display = 'block';
         });
 
         socket.on('disconnect', () => {
