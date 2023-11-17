@@ -29,10 +29,21 @@
         const socket = io();
         const defaultWidth = document.body.clientWidth;
         const defaultHeight = document.body.clientHeight;
+        const interval = false
 
         function requestImage() {
             console.log("Requesting image", defaultWidth, defaultHeight);
             socket.emit('request image', defaultWidth, defaultHeight);
+        }
+
+        function startInterval() {
+            if (!interval) {
+                const interval = 600000; // 600000 milliseconds = 10 minutes
+                setInterval(requestImage, interval);
+                interval = true;
+            } else {
+                console.log("Interval already started")
+            }
         }
 
         socket.on('image changed', (newImageUrl) => {
@@ -43,8 +54,7 @@
         socket.on('connect', () => {
             console.log('Connected to server');
             requestImage();
-            const interval = 60000; // 600000 milliseconds = 10 minutes
-            setInterval(requestImage, interval);
+            startInterval()
         });
 
         socket.on('disconnect', () => {

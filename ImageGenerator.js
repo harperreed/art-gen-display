@@ -46,9 +46,12 @@ class ImageGenerator {
       prompt_strength: 0.8,
       num_inference_steps: 25
     };
-    // console.log('Replicate input:', replicateInput)
-    // console.log('Replicate input:', JSON.stringify(replicateInput))
+
+    // Locally 
     const output = await this.callLocalReplicateService('http://100.123.55.148:5000/predictions', replicateInput)
+
+
+    // using replicate ai
     // const model = "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b"
     // const output = this.callReplicateService(model, replicateInput)
     if (output && output[0]) {
