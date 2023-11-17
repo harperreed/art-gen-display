@@ -98,6 +98,32 @@
         let interval = false
         let intervalDuration = 600000; // Duration of interval in milliseconds
         let progressInterval;
+        let showClock = true;
+        let showProgressBar = true;
+        let showPrompt = true;
+
+        function getURLParameter(name) {
+            const params = new URLSearchParams(window.location.search);
+
+            return params.get(name);
+        }
+
+        window.onload = function () {
+            // Check URL parameters
+            showClock = getURLParameter('showClock') === 'false' ? false : true;
+            showProgressBar = getURLParameter('showProgressBar') === 'false' ? false : true;
+            showPrompt = getURLParameter('showPrompt') === 'false' ? false : true;
+
+            console.log("Show Clock", showClock);
+            console.log("Show Progress Bar", showProgressBar);
+            console.log("Show Prompt", showPrompt);
+
+            if (!showClock) document.getElementById('clock').style.display = 'none';
+            if (!showProgressBar) document.getElementById('progressBarContainer').style.display = 'none';
+            if (!showPrompt) document.getElementById('prompt').style.display = 'none';
+
+
+        };
 
         function updateClock() {
             const now = new Date();
@@ -157,16 +183,19 @@
         });
 
         socket.on('show clock', () => {
+            if (!showClock) return;
             console.log('Showing Clock');
             document.getElementById('clock').style.display = 'block';
             setInterval(updateClock, 1000); // Update the clock every second
         });
 
         socket.on('show prompt', () => {
+            if (!showPrompt) return;
             console.log('Showing Prompt');
             document.getElementById('prompt').style.display = 'block';
         });
         socket.on('show progressbar', () => {
+            if (!showProgressBar) return;
             console.log('Showing Progress Bar');
             document.getElementById('progressBarContainer').style.display = 'block';
         });
