@@ -47,13 +47,20 @@ class ImageGenerator {
       num_inference_steps: 25
     };
 
-    // Locally 
-    const output = await this.callLocalReplicateService('http://100.123.55.148:5000/predictions', replicateInput)
+    // Read the environmental variable
+    const replicateServiceType = process.env.REPLICATE_SERVICE;
 
+    // Choose the service based on the environmental variable
+    let output;
+    if (replicateServiceType === 'local') {
+      const localReplicateServiceURL = process.env.REPLICATE_API_URL;
+      output = await this.callLocalReplicateService(localReplicateServiceURL, replicateInput);
+    } else { // default to remote if not specified or specified as 'remote'
+      const model = process.env.REPLICATE_MODEL;
+      console.log(model)
+      output = await this.callReplicateService(model, replicateInput);
+    }
 
-    // using replicate ai
-    // const model = "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b"
-    // const output = this.callReplicateService(model, replicateInput)
     if (output && output[0]) {
       return output[0]; // Assuming this is the image URL
     }
