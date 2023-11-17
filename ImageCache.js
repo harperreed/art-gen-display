@@ -14,7 +14,10 @@ class ImageCache {
   // Function to get the cached image URL
   getCachedImageUrl(filename) {
     // Adjust the path according to how you serve static files
-    return path.join(this.cacheDir, filename);
+    console.log(filename);
+
+    // return path.join(this.cacheDir, filename);
+    return filename;
   }
 
   // Add other cache-related functions here

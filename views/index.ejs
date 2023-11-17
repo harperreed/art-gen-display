@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fullscreen Image with Socket.IO</title>
+    <title>An AI magic Art Frame</title>
     <style>
         body,
         html {
@@ -27,8 +27,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        const defaultWidth = 1920; // document.body.clientWidth;
-        const defaultHeight = 1080; //document.body.clientHeight;
+        const defaultWidth = document.body.clientWidth;
+        const defaultHeight = document.body.clientHeight;
 
         function requestImage() {
             console.log("Requesting image", defaultWidth, defaultHeight);
@@ -36,13 +36,15 @@
         }
 
         socket.on('image changed', (newImageUrl) => {
-            document.getElementById('background').style.backgroundImage = `url(${newImageUrl})`;
+            const newUrl = `/cache/${newImageUrl}`;
+            document.getElementById('background').style.backgroundImage = `url(${newUrl})`;
         });
 
         socket.on('connect', () => {
             console.log('Connected to server');
             requestImage();
-            // setInterval(requestImage, 600000); // 600000 milliseconds = 10 minutes
+            const interval = 60000; // 600000 milliseconds = 10 minutes
+            setInterval(requestImage, interval);
         });
 
         socket.on('disconnect', () => {

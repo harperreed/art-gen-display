@@ -26,6 +26,7 @@ class Server {
 
     // Serve static files from 'public' directory (if you have one)
     this.app.use(express.static('public'));
+    this.app.use('/cache', express.static('cache'));
 
     const sessionMiddleware = session({
       secret: 'your-secret-key',
