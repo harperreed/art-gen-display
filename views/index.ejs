@@ -54,6 +54,36 @@
             /* mix-blend-mode: overlay; */
             box-shadow: 0.3vw 0.3vh 0.5vw rgba(0, 0, 0, 0.5);
         }
+
+        #progressBarContainer {
+            position: fixed;
+            /* Fixed position */
+            bottom: 0;
+            /* At the bottom of the screen */
+            left: 0;
+            /* Align to the left side */
+            width: 100vw;
+            /* Full width of the viewport */
+            height: 2px;
+            /* Adjust height as needed */
+            background-color: #dddddd5e;
+            /* Background of the container */
+            mix-blend-mode: difference;
+
+
+
+        }
+
+        #progressBar {
+            height: 100%;
+            width: 0;
+            /* Initial width is 0 */
+            background-color: #4caf4f99;
+            /* Initial color of the progress bar */
+
+
+
+        }
     </style>
 </head>
 
@@ -61,12 +91,17 @@
     <div class="fullscreen-image" id="background"></div>
     <div id="clock">Loading</div>
     <div id="prompt">Loading</div>
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
         const defaultWidth = document.body.clientWidth;
         const defaultHeight = document.body.clientHeight;
         let interval = false
+        let intervalDuration = 600000; // Duration of interval in milliseconds
+        let progressInterval;
 
         function updateClock() {
             const now = new Date();
@@ -77,21 +112,41 @@
         function requestImage() {
             console.log("Requesting image", defaultWidth, defaultHeight);
             socket.emit('request image', defaultWidth, defaultHeight);
+
+
         }
 
         function startInterval() {
             if (!interval) {
-                const intervalTime = 600000; // 600000 milliseconds = 10 minutes
-                setInterval(requestImage, intervalTime);
-                interval = true;
+                progressInterval = setInterval(updateProgressBar, 1000); // Update every second
+                interval = setInterval(requestImage, intervalDuration);
             } else {
-                console.log("Interval already started")
+                console.log("Interval already started");
+            }
+        }
+
+        function updateProgressBar() {
+            let progressBar = document.getElementById('progressBar');
+            let width = parseFloat(progressBar.style.width.slice(0, -1)); // Get current width
+            if (isNaN(width)) { width = 0; } // If width is NaN, set it to 0
+            let increment = 100 / (intervalDuration / 1000); // Calculate increment for each second
+            console.log(increment);
+            if (width + increment <= 100) {
+                progressBar.style.width = (width + increment) + '%';
+            } else {
+                clearInterval(progressInterval); // Stop the interval when it reaches 100%
+                progressBar.style.width = '0%'; // Reset progress bar
             }
         }
 
         socket.on('image changed', (newImageUrl) => {
             const newUrl = `/cache/${newImageUrl}`;
             document.getElementById('background').style.backgroundImage = `url(${newUrl})`;
+
+            // Reset progress bar on new image request
+            clearInterval(progressInterval);
+            document.getElementById('progressBar').style.width = '0%';
+            progressInterval = setInterval(updateProgressBar, 1000);
         });
 
         socket.on('image prompt', (prompt) => {
