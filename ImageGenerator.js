@@ -10,12 +10,11 @@ class ImageGenerator {
   }
 
   generatePrompt() {
-    const types = ["photo", "painting", "vector image", "digital art"];
-    const feelings = ["lonely", "excited", "sad", "depressed"];
-    const keywords = ["cyborg", "fireworks", "forest", "cityscape", "rain", "night", "snow", "wolf", "80s hifi bar"];
-    const styles = ["vibrant", "surreal", "photorealistic", "painting-like", "collage"];
-    const artistStyles = ["Jean-Michel Basquiat", "Marlene Dumas", "keith haring", "picasso", "Yayoi Kusama", "hiroshi nagai", "murakami", "ansel adams", "robert maplethorpe", "Hiroshi Sugimoto"];
-
+    const types = ["photo", "painting", "vector image", "digital art", "collage"];
+    const feelings = ["lonely", "excited", "sad", "depressed", "happy", "magical", "fucked up", "unhinged"];
+    const keywords = ["cyborg", "fireworks", "forest", "cityscape", "rain", "night", "snow", "80s hifi bar", "hack space", "office space", "corporation", "spaceship", "rocket ship", "rabbit", "emoji", "david bowie", "rock and roll"];
+    const styles = ["vibrant", "surreal", "photorealistic", "unhinged", "maximalist", "minimalist", "busy", "light", "airy"];
+    const artistStyles = ["Jean-Michel Basquiat", "Marlene Dumas", "keith haring", "picasso", "Yayoi Kusama", "hiroshi nagai", "murakami", "ansel adams", "robert maplethorpe", "Hiroshi Sugimoto", "kaws", "hebru brantly", "Ai Weiwei", "invader", "mcbess"];
     const randomType = types[Math.floor(Math.random() * types.length)];
     const randomFeeling = feelings[Math.floor(Math.random() * feelings.length)];
     const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
@@ -53,17 +52,25 @@ class ImageGenerator {
     // Choose the service based on the environmental variable
     let output;
     if (replicateServiceType === 'local') {
+      console.log("calling local replicate service")
       const localReplicateServiceURL = process.env.REPLICATE_API_URL;
+      console.log(localReplicateServiceURL)
       output = await this.callLocalReplicateService(localReplicateServiceURL, replicateInput);
+
+
     } else { // default to remote if not specified or specified as 'remote'
+      console.log("calling remote replicate service")
       const model = process.env.REPLICATE_MODEL;
       console.log(model)
       output = await this.callReplicateService(model, replicateInput);
+
     }
+
 
     if (output && output[0]) {
       return output[0]; // Assuming this is the image URL
     }
+
     return null;
   }
 
