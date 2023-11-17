@@ -16,20 +16,59 @@
         .fullscreen-image {
             width: 100%;
             height: 100%;
-            background: url('your-image.jpg') no-repeat center center;
+            background: url('loading.gif') no-repeat center center;
             background-size: cover;
+        }
+
+        #clock {
+            position: absolute;
+            top: 2vh;
+            /* 10% of the viewport height from the top */
+            right: 2vw;
+            /* 10% of the viewport width from the right */
+            font-size: 24px;
+            font-family: sans-serif;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        #prompt {
+            position: absolute;
+            bottom: 2vh;
+            /* 10% of the viewport height from the top */
+            left: 2vw;
+            width: 20vw;
+            /* 10% of the viewport width from the right */
+            font-size: 24px;
+            font-family: sans-serif;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
         }
     </style>
 </head>
 
 <body>
     <div class="fullscreen-image" id="background"></div>
+    <div id="clock">Loading</div>
+    <div id="prompt">Loading</div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
         const defaultWidth = document.body.clientWidth;
         const defaultHeight = document.body.clientHeight;
-        const interval = false
+        let interval = false
+
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('clock').innerText = timeString;
+        }
 
         function requestImage() {
             console.log("Requesting image", defaultWidth, defaultHeight);
@@ -38,8 +77,8 @@
 
         function startInterval() {
             if (!interval) {
-                const interval = 600000; // 600000 milliseconds = 10 minutes
-                setInterval(requestImage, interval);
+                const intervalTime = 600000; // 600000 milliseconds = 10 minutes
+                setInterval(requestImage, intervalTime);
                 interval = true;
             } else {
                 console.log("Interval already started")
@@ -51,15 +90,33 @@
             document.getElementById('background').style.backgroundImage = `url(${newUrl})`;
         });
 
+        socket.on('image prompt', (prompt) => {
+            console.log("Prompt", prompt)
+            document.getElementById('prompt').innerText = prompt;
+        });
+
         socket.on('connect', () => {
             console.log('Connected to server');
             requestImage();
             startInterval()
         });
 
+        socket.on('show clock', () => {
+            console.log('Showing Clock');
+            document.getElementById('clock').style.display = 'block';
+            setInterval(updateClock, 1000); // Update the clock every second
+        });
+
+        socket.on('show prompt', () => {
+            console.log('Showing Prompt');
+            document.getElementById('prompt').style.display = 'block';
+        });
+
         socket.on('disconnect', () => {
             console.log('Disconnected from server');
         });
+
+
 
 
 

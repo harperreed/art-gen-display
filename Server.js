@@ -76,9 +76,19 @@ class Server {
         console.log('Image request:', width, height);
         // ... handle image generation and caching ...
         this.generateImageForClient(socket, width, height)
-
-
       });
+
+      const showClock = process.env.SHOW_CLOCK;
+      const showPrompt = process.env.SHOW_PROMPT;
+      console.log(showClock, showPrompt)
+      if (showClock === "True") {
+        socket.emit('show clock', true);
+      }
+
+      if (showPrompt) {
+        socket.emit('show prompt', true);
+      }
+
     });
   }
 
@@ -93,7 +103,7 @@ class Server {
     }
     console.log("making image request")
     const imageUrl = await this.imageGenerator.generateImageWithReplicate(prompt, width, height);
-    console.log('Image generated!', imageUrl)
+
 
     if (imageUrl) {
       // Store the new image in the cache
@@ -108,7 +118,11 @@ class Server {
 
         // Emit the image URL after successful download
         socket.emit('image changed', this.imageCache.getCachedImageUrl(filename));
+        socket.emit('image prompt', prompt);
       });
+    } else {
+      console.log("no image url")
+
     }
 
   }
