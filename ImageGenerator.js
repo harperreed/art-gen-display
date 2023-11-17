@@ -14,7 +14,7 @@ class ImageGenerator {
     const feelings = ["lonely", "excited", "sad", "depressed", "happy", "magical", "fucked up", "unhinged"];
     const keywords = ["cyborg", "fireworks", "forest", "cityscape", "rain", "night", "snow", "80s hifi bar", "hack space", "office space", "corporation", "spaceship", "rocket ship", "rabbit", "emoji", "david bowie", "rock and roll"];
     const styles = ["vibrant", "surreal", "photorealistic", "unhinged", "maximalist", "minimalist", "busy", "light", "airy"];
-    const artistStyles = ["Jean-Michel Basquiat", "Marlene Dumas", "keith haring", "picasso", "Yayoi Kusama", "hiroshi nagai", "murakami", "ansel adams", "robert maplethorpe", "Hiroshi Sugimoto", "kaws", "hebru brantly", "Ai Weiwei", "invader", "mcbess"];
+    const artistStyles = ["Jean-Michel Basquiat", "Marlene Dumas", "keith haring", "picasso", "Yayoi Kusama", "hiroshi nagai", "murakami", "ansel adams", "robert maplethorpe", "Hiroshi Sugimoto", "Ai Weiwei",];
     const randomType = types[Math.floor(Math.random() * types.length)];
     const randomFeeling = feelings[Math.floor(Math.random() * feelings.length)];
     const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
