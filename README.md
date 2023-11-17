@@ -3,6 +3,10 @@
 
 This project is a Node.js web application that periodically generates images using the Replicate API and displays them on a web server. It uses Socket.IO for real-time communication and updates the displayed image every 5 minutes with a new, randomly generated prompt.
 
+![F43DD605-B165-4150-8C48-6CDC5532744A_1_102_o](https://github.com/harperreed/art-gen-display/assets/18504/1f11b26c-4882-48d3-8559-ab9746ae0987)
+![E10AEE6E-8830-4BC1-8BA9-FDB17CB19906_1_102_o](https://github.com/harperreed/art-gen-display/assets/18504/52964de7-3e49-435d-9b1e-919707ed85f3)
+
+
 ## Features
 
 - Image generation using Replicate API.
