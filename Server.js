@@ -1,3 +1,5 @@
+const morgan = require('morgan');
+const winston = require('winston');
 const express = require('express');
 const path = require('path');
 const http = require('http');
@@ -17,9 +19,28 @@ class Server {
     this.io = socketIo(this.server);
     this.setupExpress();
     this.setupSocketIO();
+
+    this.logger = winston.createLogger({
+      level: 'info',
+      format: winston.format.json(),
+      transports: [
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'combined.log' })
+      ]
+    });
+
+    if (process.env.NODE_ENV !== 'production') {
+      this.logger.add(new winston.transports.Console({
+        format: winston.format.simple()
+      }));
+    }
+
   }
 
   setupExpress() {
+    // Use morgan for HTTP request logging
+    this.app.use(morgan('dev'));
+
     // Set EJS as the templating engine
     this.app.set('view engine', 'ejs');
     this.app.set('views', path.join(__dirname, 'views'));
@@ -58,10 +79,10 @@ class Server {
 
   setupSocketIO() {
     this.io.on('connection', (socket) => {
-      console.log('a user connected');
+      this.logger.info('a user connected');
       if (socket.handshake.session) {
         // Access session data
-        console.log('Session data:', socket.handshake.session);
+        this.logger.info('Session data:', socket.handshake.session);
 
         // You can also modify the session data
         socket.handshake.session.visits = socket.handshake.session.visits ? socket.handshake.session.visits + 1 : 1;
@@ -70,10 +91,10 @@ class Server {
 
 
       socket.on('disconnect', () => {
-        console.log('user disconnected');
+        this.logger.info('user disconnected');
       });
       socket.on('request image', (width, height) => {
-        console.log('Image request:', width, height);
+        this.logger.info('Image request:', width, height);
         // ... handle image generation and caching ...
         this.generateImageForClient(socket, width, height)
       });
@@ -82,7 +103,7 @@ class Server {
       const showPrompt = process.env.SHOW_PROMPT;
       const showProgressBar = process.env.SHOW_PROGRESS_BAR;
 
-      console.log(showClock, showPrompt)
+      this.logger.info(showClock, showPrompt)
       if (showClock === "True") {
         socket.emit('show clock', true);
       }
@@ -107,14 +128,14 @@ class Server {
       socket.emit('image changed', this.imageCache.getCachedImageUrl(filename));
       return;
     }
-    console.log("making image request")
+    this.logger.info("making image request")
     const { imageUrl, generatorInput } = await this.imageGenerator.generateImageWithReplicate(prompt, width, height);
 
 
     if (imageUrl) {
       // Store the new image in the cache
 
-      console.log('Image generated!');
+      this.logger.info('Image generated!');
 
       Utils.downloadImage(imageUrl, filePath, generatorInput, (error) => {
         if (error) {
@@ -127,7 +148,7 @@ class Server {
         socket.emit('image prompt', prompt);
       });
     } else {
-      console.log("no image url")
+      this.logger.info("no image url")
 
     }
 
@@ -136,7 +157,7 @@ class Server {
 
   start() {
     this.server.listen(this.port, () => {
-      console.log(`Server running at http://localhost:${this.port}`);
+      this.logger.info(`Server running at http://localhost:${this.port}`);
     });
   }
 }

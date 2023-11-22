@@ -7,9 +7,11 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "express-socket.io-session": "^1.3.5",
+    "morgan": "^1.10.0",
     "path": "^0.12.7",
     "replicate": "^0.21.1",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "winston": "^3.11.0"
   },
   "name": "artboard",
   "version": "1.0.0",
