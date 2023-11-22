@@ -90,7 +90,7 @@ class ImageGenerator {
     }
 
     if (output && output[0]) {
-      this.logger.debug("output", output[0])
+      // this.logger.debug("output", output[0])
       return {
         imageUrl: output[0], generatorInput: replicateInput
       }; // Assuming this is the image URL
@@ -131,7 +131,7 @@ class ImageGenerator {
     this.logger.debug(`Local Payload: ${JSON.stringify(payload)}`)
     try {
       const response = await axios.post(url, { input: payload });
-      this.logger.debug('Replicate output:', response.data.output)
+      // this.logger.debug('Replicate output:', response.data.output)
       return response.data.output;
       // return null
     } catch (error) {
