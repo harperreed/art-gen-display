@@ -96,7 +96,7 @@ class ImageGenerator {
       }; // Assuming this is the image URL
     }
     this.logger.error("no output from replicate")
-    this.logger.error(output)
+    this.logger.error(JSON.stringify(output))
     return { imageUrl: null, generatorInput: replicateInput };
   }
 
@@ -125,8 +125,8 @@ class ImageGenerator {
 
   async callLocalReplicateService(url, payload) {
     this.logger.info("calling local replicate service")
-    this.logger.debug(url)
-    this.logger.debug(payload)
+    this.logger.debug("URL:", url)
+    this.logger.debug("Payload:", JSON.stringify(payload))
     try {
       const response = await axios.post(url, { input: payload });
       this.logger.debug('Replicate output:', response.data.output)
