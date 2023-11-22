@@ -1,6 +1,9 @@
-version: '3.8'
+version: "3.8"
 services:
   web:
     build: .
     ports:
       - "8354:8354"
+    volumes:
+      - ./image-cache:/usr/src/app/cache
+      - ./logs:/usr/src/app/logs

@@ -15,6 +15,7 @@ RUN npm install --only=production
 COPY . .
 
 RUN mkdir -p ./cache
+RUN mkdir -p ./logs
 
 # Expose port 3000 for the application
 EXPOSE 8354
