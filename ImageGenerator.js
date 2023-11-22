@@ -46,11 +46,11 @@ class ImageGenerator {
 
   async generateImageWithReplicate(prompt, originalWidth, originalHeight) {
 
-    this.logger.info("width", originalWidth)
-    this.logger.info("height", originalHeight)
+    this.logger.debug("width", originalWidth)
+    this.logger.debug("height", originalHeight)
     const { width, height } = Utils.makeResolutionDivisibleBy8(originalWidth, originalHeight);
-    this.logger.info("new width", width)
-    this.logger.info("new height", height)
+    this.logger.debug("new width", width)
+    this.logger.debug("new height", height)
     const negative_prompt = `(bad_prompt_version2:0.8), bad-artist, logo, dog, Glasses, Watermark, bad artist, helmet, blur, blurry, text, b&w, 3d, bad art, poorly drawn, disfigured, deformed, extra limbs, ugly hands, extra fingers, canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), weird colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), (((deformed))), ((ugly)), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))), out of frame, ugly, extra limbs, (bad anatomy), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), mutated hands, (fused fingers), (too many fingers), (((long neck))), Photoshop, video game, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, mutation, mutated, extra limbs, extra legs, extra arms, disfigured, deformed, cross-eye, body out of frame, blurry, bad art, bad anatomy, 3d render`;
     const replicateInput = {
       width: width,
@@ -77,14 +77,14 @@ class ImageGenerator {
     if (replicateServiceType === 'local') {
       this.logger.info("calling local replicate service")
       const localReplicateServiceURL = process.env.REPLICATE_API_URL;
-      this.logger.info(localReplicateServiceURL)
+      this.logger.debug(localReplicateServiceURL)
       output = await this.callLocalReplicateService(localReplicateServiceURL, replicateInput);
 
 
     } else { // default to remote if not specified or specified as 'remote'
       this.logger.info("calling remote replicate service")
       const model = process.env.REPLICATE_MODEL;
-      this.logger.info(model)
+      this.logger.debug(model)
       output = await this.callReplicateService(model, replicateInput);
 
     }
@@ -107,7 +107,7 @@ class ImageGenerator {
         model,
         { input: input }
       );
-      this.logger.info('Replicate output:', output)
+      this.logger.debug('Replicate output:', output)
 
       if (output) {
         return output; // Assuming this is the image URL
@@ -115,7 +115,7 @@ class ImageGenerator {
 
       return null;
     } catch (error) {
-      console.error('Error generating image with Replicate:', error);
+      this.logger.error('Error generating image with Replicate:', error);
       return null;
     }
   }
@@ -128,7 +128,7 @@ class ImageGenerator {
       return response.data.output;
       // return null
     } catch (error) {
-      console.error('Error making the POST request:', error);
+      this.logger.error('Error making the POST request:', error);
       return null;
     }
   }
