@@ -22,7 +22,11 @@ class Server {
 
     this.logger = winston.createLogger({
       level: 'info',
-      format: winston.format.json(),
+      format: winston.format.combine(
+        winston.format.label({ label: 'Server' }), // Adding a label
+        winston.format.timestamp(),
+        winston.format.json()
+      ),
       transports: [
         new winston.transports.File({ filename: './logs/error.log', level: 'error' }),
         new winston.transports.File({ filename: './logs/combined.log' })

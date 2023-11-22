@@ -3,9 +3,23 @@ const fs = require('fs');
 const CryptoJS = require("crypto-js");
 const https = require('https');
 const http = require('http')
-
+const winston = require('winston');
 class Utils {
+  static logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.combine(
+      winston.format.label({ label: 'Util' }), // Adding a label
+      winston.format.timestamp(),
+      winston.format.json()
+    ),
+    transports: [
+      new winston.transports.File({ filename: 'utils-error.log', level: 'error' }),
+      new winston.transports.File({ filename: 'utils-combined.log' })
+    ]
+  });
+
   static downloadImage(url, filePath, input, callback) {
+    this.logger.debug("downloadImage", url, filePath, input)
     // Ensure url is a string
     if (typeof url !== 'string') {
       callback('URL must be a string');
@@ -16,7 +30,7 @@ class Utils {
       const inputPath = filePath.replace('.jpg', '.json');
       fs.writeFile(inputPath, JSON.stringify(input, null, 2), (err) => {
         if (err) {
-          console.error(err.message);
+          this.logger.error(err.message);
         }
       });
     }

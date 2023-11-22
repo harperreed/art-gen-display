@@ -1,5 +1,6 @@
 const Replicate = require('replicate');  // Import if needed in this file
 const axios = require('axios');
+const winston = require('winston');
 const Utils = require('./Utils');
 const fs = require('fs');
 const path = require('path');
@@ -7,6 +8,24 @@ const path = require('path');
 class ImageGenerator {
   constructor(replicate) {
     this.replicate = replicate;
+    this.logger = winston.createLogger({
+      level: 'info',
+      format: winston.format.combine(
+        winston.format.label({ label: 'ImageGenerator' }), // Adding a label
+        winston.format.timestamp(),
+        winston.format.json()
+      ),
+      transports: [
+        new winston.transports.File({ filename: './logs/error.log', level: 'error' }),
+        new winston.transports.File({ filename: './logs/combined.log' })
+      ]
+    });
+
+    if (process.env.NODE_ENV !== 'production') {
+      this.logger.add(new winston.transports.Console({
+        format: winston.format.simple()
+      }));
+    }
   }
 
   generatePrompt() {
@@ -27,11 +46,11 @@ class ImageGenerator {
 
   async generateImageWithReplicate(prompt, originalWidth, originalHeight) {
 
-    console.log("width", originalWidth)
-    console.log("height", originalHeight)
+    this.logger.info("width", originalWidth)
+    this.logger.info("height", originalHeight)
     const { width, height } = Utils.makeResolutionDivisibleBy8(originalWidth, originalHeight);
-    console.log("new width", width)
-    console.log("new height", height)
+    this.logger.info("new width", width)
+    this.logger.info("new height", height)
     const negative_prompt = `(bad_prompt_version2:0.8), bad-artist, logo, dog, Glasses, Watermark, bad artist, helmet, blur, blurry, text, b&w, 3d, bad art, poorly drawn, disfigured, deformed, extra limbs, ugly hands, extra fingers, canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), weird colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), (((deformed))), ((ugly)), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))), out of frame, ugly, extra limbs, (bad anatomy), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), mutated hands, (fused fingers), (too many fingers), (((long neck))), Photoshop, video game, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, mutation, mutated, extra limbs, extra legs, extra arms, disfigured, deformed, cross-eye, body out of frame, blurry, bad art, bad anatomy, 3d render`;
     const replicateInput = {
       width: width,
@@ -56,16 +75,16 @@ class ImageGenerator {
     // Choose the service based on the environmental variable
     let output;
     if (replicateServiceType === 'local') {
-      console.log("calling local replicate service")
+      this.logger.info("calling local replicate service")
       const localReplicateServiceURL = process.env.REPLICATE_API_URL;
-      console.log(localReplicateServiceURL)
+      this.logger.info(localReplicateServiceURL)
       output = await this.callLocalReplicateService(localReplicateServiceURL, replicateInput);
 
 
     } else { // default to remote if not specified or specified as 'remote'
-      console.log("calling remote replicate service")
+      this.logger.info("calling remote replicate service")
       const model = process.env.REPLICATE_MODEL;
-      console.log(model)
+      this.logger.info(model)
       output = await this.callReplicateService(model, replicateInput);
 
     }
@@ -88,7 +107,7 @@ class ImageGenerator {
         model,
         { input: input }
       );
-      console.log('Replicate output:', output)
+      this.logger.info('Replicate output:', output)
 
       if (output) {
         return output; // Assuming this is the image URL
