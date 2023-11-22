@@ -108,7 +108,7 @@ class Server {
       return;
     }
     console.log("making image request")
-    const imageUrl = await this.imageGenerator.generateImageWithReplicate(prompt, width, height);
+    const { imageUrl, generatorInput } = await this.imageGenerator.generateImageWithReplicate(prompt, width, height);
 
 
     if (imageUrl) {
@@ -116,7 +116,7 @@ class Server {
 
       console.log('Image generated!');
 
-      Utils.downloadImage(imageUrl, filePath, (error) => {
+      Utils.downloadImage(imageUrl, filePath, generatorInput, (error) => {
         if (error) {
           console.error('Error downloading image:', error);
           return;

@@ -5,12 +5,23 @@ const https = require('https');
 const http = require('http')
 
 class Utils {
-  static downloadImage(url, filePath, callback) {
+  static downloadImage(url, filePath, input, callback) {
     // Ensure url is a string
     if (typeof url !== 'string') {
       callback('URL must be a string');
       return;
     }
+
+    if (input) {
+      const inputPath = filePath.replace('.jpg', '.json');
+      fs.writeFile(inputPath, JSON.stringify(input, null, 2), (err) => {
+        if (err) {
+          console.error(err.message);
+        }
+      });
+    }
+
+
     const file = fs.createWriteStream(filePath);
 
     // Check if the URL is Base64 encoded
@@ -37,6 +48,8 @@ class Utils {
         if (callback) callback(err.message);
       });
     }
+
+
   }
 
   static makeResolutionDivisibleBy8(width, height) {
