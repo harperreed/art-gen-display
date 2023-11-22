@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Image Generations</title>
+  <!-- Include Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+  <div class="container mx-auto px-4">
+    <h1 class="text-2xl font-bold my-8">Generated Images</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <% imagePairs.forEach(pair=> { %>
+        <div class="bg-white rounded-lg overflow-hidden shadow-lg p-4">
+          <a href="<%= pair.imageUrl %>" target="_blank">
+
+            <img src="<%= pair.imageUrl %>" alt="Generated Image" class="w-full h-auto">
+          </a>
+          <% if (pair.metadata) { %>
+            <div class="mt-2">
+              <p class="text-sm text-gray-600"><strong>Prompt:</strong>
+                <%= pair.metadata.prompt %>
+              </p>
+              <p class="text-sm text-gray-600"><strong>Size:</strong>
+                <%= pair.metadata.width %> x <%= pair.metadata.height %>
+              </p>
+              <!-- Add more metadata fields here as needed -->
+            </div>
+            <% } else { %>
+              <p class="text-sm text-gray-600">Metadata not available.</p>
+              <% } %>
+        </div>
+        <% }) %>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -2,6 +2,8 @@ const morgan = require('morgan');
 const winston = require('winston');
 const express = require('express');
 const path = require('path');
+const fs = require('fs').promises; // Import fs promises for async file operations
+
 const http = require('http');
 const Utils = require('./Utils');
 const https = require('https');
@@ -72,8 +74,34 @@ class Server {
       res.render('index', { title: 'My App' });
     });
 
-    // Additional routes can be defined here
-    // ...
+    this.app.get('/generations', async (req, res) => {
+      try {
+        const files = await fs.readdir(this.imageCache.cacheDir);
+
+        // Create an array to hold image and metadata pairs
+        const imagePairs = await Promise.all(files.filter(file => file.endsWith('.jpg')).map(async (imageFile) => {
+          const metadataFile = imageFile.replace('.jpg', '.json');
+          const metadataPath = path.join(this.imageCache.cacheDir, metadataFile);
+          let metadata;
+
+          try {
+            const metadataContent = await fs.readFile(metadataPath, 'utf8');
+            metadata = JSON.parse(metadataContent);
+          } catch (error) {
+            console.error('Error reading metadata file:', error);
+            metadata = null;
+          }
+
+          return { imageUrl: `/cache/${imageFile}`, metadata };
+        }));
+
+        // Render the template with imagePairs data
+        res.render('generations', { imagePairs });
+      } catch (error) {
+        console.error('Error reading cache directory:', error);
+        res.status(500).send('Error loading generations page');
+      }
+    });
 
     // Handle 404 errors
     this.app.use((req, res, next) => {
