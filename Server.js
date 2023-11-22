@@ -78,25 +78,40 @@ class Server {
       try {
         const files = await fs.readdir(this.imageCache.cacheDir);
 
-        // Create an array to hold image and metadata pairs
-        const imagePairs = await Promise.all(files.filter(file => file.endsWith('.jpg')).map(async (imageFile) => {
-          const metadataFile = imageFile.replace('.jpg', '.json');
-          const metadataPath = path.join(this.imageCache.cacheDir, metadataFile);
-          let metadata;
-
-          try {
-            const metadataContent = await fs.readFile(metadataPath, 'utf8');
-            metadata = JSON.parse(metadataContent);
-          } catch (error) {
-            console.error('Error reading metadata file:', error);
-            metadata = null;
-          }
-
-          return { imageUrl: `/cache/${imageFile}`, metadata };
+        // Create an array of objects containing file stats and names
+        const fileStats = await Promise.all(files.map(async (file) => {
+          const filePath = path.join(this.imageCache.cacheDir, file);
+          const stats = await fs.stat(filePath);
+          return { file, stats };
         }));
 
-        // Render the template with imagePairs data
-        res.render('generations', { imagePairs });
+        // Sort files by creation time
+        fileStats.sort((a, b) => b.stats.birthtime - a.stats.birthtime);
+
+        // Process each file to create imagePairs
+        const imagePairs = await Promise.all(fileStats.map(async ({ file }) => {
+          if (file.endsWith('.jpg')) {
+            const metadataFile = file.replace('.jpg', '.json');
+            const metadataPath = path.join(this.imageCache.cacheDir, metadataFile);
+            let metadata;
+
+            try {
+              const metadataContent = await fs.readFile(metadataPath, 'utf8');
+              metadata = JSON.parse(metadataContent);
+            } catch (error) {
+              console.error('Error reading metadata file:', error);
+              metadata = null;
+            }
+
+            return { imageUrl: `/cache/${file}`, metadata };
+          }
+        }));
+
+        // Filter out undefined entries if any
+        const validImagePairs = imagePairs.filter(pair => pair !== undefined);
+
+        // Render the template with sorted imagePairs data
+        res.render('generations', { imagePairs: validImagePairs });
       } catch (error) {
         console.error('Error reading cache directory:', error);
         res.status(500).send('Error loading generations page');
