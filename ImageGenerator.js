@@ -95,8 +95,8 @@ class ImageGenerator {
         imageUrl: output[0], generatorInput: replicateInput
       }; // Assuming this is the image URL
     }
-    this.logger.error("no output from replicate")
-    this.logger.error(JSON.stringify(output))
+    this.logger.error("no usable output from replicate")
+    this.logger.error(`output: ${JSON.stringify(output)}`)
     return { imageUrl: null, generatorInput: replicateInput };
   }
 
@@ -104,6 +104,8 @@ class ImageGenerator {
   async callReplicateService(model, input) {
 
     try {
+      this.logger.debug(`model:  ${model}`)
+      this.logger.debug(`input: ${JSON.stringify(input)}`)
       const output = await this.replicate.run(
         model,
         { input: input }
@@ -125,8 +127,8 @@ class ImageGenerator {
 
   async callLocalReplicateService(url, payload) {
     this.logger.info("calling local replicate service")
-    this.logger.debug("URL:", url)
-    this.logger.debug("Payload:", JSON.stringify(payload))
+    this.logger.debug(`Local URL: ${url}`)
+    this.logger.debug(`Local Payload: ${JSON.stringify(payload)}`)
     try {
       const response = await axios.post(url, { input: payload });
       this.logger.debug('Replicate output:', response.data.output)
