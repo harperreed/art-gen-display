@@ -77,7 +77,7 @@ class ImageGenerator {
       }; // Assuming this is the image URL
     }
 
-    return null;
+    return { imageUrl: null, generatorInput: replicateInput };
   }
 
 
