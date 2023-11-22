@@ -4,6 +4,7 @@ const winston = require('winston');
 const Utils = require('./Utils');
 const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 
 class ImageGenerator {
   constructor(replicate) {
@@ -29,18 +30,18 @@ class ImageGenerator {
   }
 
   generatePrompt() {
-    const types = ["Calligraphy", "relief painting", "mixed media", "Textile Art", "mosaic", "photograph", "painting", "watercolor", "vector image", "digital art", "charcoal drawing", "pencil drawing", "collage", "woodblock print", "etching"];
-    const feelings = ["vibrant", "mystical", "epic", "lonely", "excited", "sad", "depressed", "happy", "magical", "fucked up", "unhinged", "perfect", "adequate", "destroyed"];
-    const keywords = ["tulip", "Old school personal computer", "cyborg", "model", "time machine", "fireworks", "forest", "cityscape", "rain", "night", "snow", "80s hifi bar", "hack space", "office space", "corporation", "spaceship", "rocket ship", "rabbit", "emoji", "rock and roll", "thousand year old man", "dish from alinea", "perfect chair"];
-    const styles = ["vibrant", "surreal", "photorealistic", "unhinged", "maximalist", "minimalist", "busy", "light", "airy"];
-    const artistStyles = ["andy warhol", "Georgia O'Keeffe", "Jackson Pollock", "Nam June Paik", "Mark Rothko", "Zaha Hadid", "Banksy", "Salvador Dalí", "Kara Walke", "Vincent van Gogh", "Katsushika Hokusai", "theaster gates", "Jean-Michel Basquiat", "Marlene Dumas", "keith haring", "picasso", "Yayoi Kusama", "hiroshi nagai", "murakami", "ansel adams", "robert maplethorpe", "Hiroshi Sugimoto", "Ai Weiwei",];
+    // Load and parse YAML file
+    const fileContents = fs.readFileSync('./prompts.yaml', 'utf8');
+    const data = yaml.load(fileContents);
 
-    const randomType = types[Math.floor(Math.random() * types.length)];
-    const randomFeeling = feelings[Math.floor(Math.random() * feelings.length)];
-    const randomKeyword = keywords[Math.floor(Math.random() * keywords.length)];
-    const randomStyle = styles[Math.floor(Math.random() * styles.length)];
-    const randomArtistStyle = artistStyles[Math.floor(Math.random() * artistStyles.length)];
+    // Random selection from each array
+    const randomType = data.types[Math.floor(Math.random() * data.types.length)];
+    const randomFeeling = data.feelings[Math.floor(Math.random() * data.feelings.length)];
+    const randomKeyword = data.keywords[Math.floor(Math.random() * data.keywords.length)];
+    const randomStyle = data.styles[Math.floor(Math.random() * data.styles.length)];
+    const randomArtistStyle = data.artistStyles[Math.floor(Math.random() * data.artistStyles.length)];
 
+    // Return the generated prompt
     return `a ${randomType} of a ${randomFeeling} ${randomKeyword} in ${randomStyle} style made by ${randomArtistStyle} for display in a museum `;
   }
 

@@ -7,3 +7,4 @@ services:
     volumes:
       - ./image-cache:/usr/src/app/cache
       - ./logs:/usr/src/app/logs
+      - ./prompts.yaml:/usr/src/app/prompts.yaml # This line mounts prompts.yaml into the container
