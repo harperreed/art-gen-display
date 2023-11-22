@@ -9,7 +9,7 @@ class ImageGenerator {
   constructor(replicate) {
     this.replicate = replicate;
     this.logger = winston.createLogger({
-      level: 'info',
+      level: 'debug',
       format: winston.format.combine(
         winston.format.label({ label: 'ImageGenerator' }), // Adding a label
         winston.format.timestamp(),
@@ -89,13 +89,13 @@ class ImageGenerator {
 
     }
 
-
     if (output && output[0]) {
+      this.logger.debug("output", output[0])
       return {
         imageUrl: output[0], generatorInput: replicateInput
       }; // Assuming this is the image URL
     }
-
+    this.logger.error("no output from replicate")
     return { imageUrl: null, generatorInput: replicateInput };
   }
 
@@ -113,6 +113,8 @@ class ImageGenerator {
         return output; // Assuming this is the image URL
       }
 
+      this.logger.error("no output from replicate")
+
       return null;
     } catch (error) {
       this.logger.error('Error generating image with Replicate:', error);
@@ -121,10 +123,12 @@ class ImageGenerator {
   }
 
   async callLocalReplicateService(url, payload) {
-
+    this.logger.info("calling local replicate service")
+    this.logger.debug(url)
+    this.logger.debug(payload)
     try {
       const response = await axios.post(url, { input: payload });
-
+      this.logger.debug('Replicate output:', response.data.output)
       return response.data.output;
       // return null
     } catch (error) {
