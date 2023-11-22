@@ -96,6 +96,7 @@ class ImageGenerator {
       }; // Assuming this is the image URL
     }
     this.logger.error("no output from replicate")
+    this.logger.error(output)
     return { imageUrl: null, generatorInput: replicateInput };
   }
 
