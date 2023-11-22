@@ -14,7 +14,7 @@ RUN npm install --only=production
 # Copy local code to the container image.
 COPY . .
 
-RUN mkdir ./cache
+RUN mkdir -p ./cache
 
 # Expose port 3000 for the application
 EXPOSE 8354
