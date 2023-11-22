@@ -66,17 +66,31 @@ class Utils {
 
   }
 
-  static makeResolutionDivisibleBy8(width, height) {
+  static makeResolutionDivisibleBy8(width, height, maxDimension = 2048) {
+    // Calculate the aspect ratio
+    const aspectRatio = width / height;
+
+    // Ensure the width and height do not exceed the maximum dimension
+    if (width > maxDimension) {
+      width = maxDimension;
+      height = width / aspectRatio;
+    }
+    if (height > maxDimension) {
+      height = maxDimension;
+      width = height * aspectRatio;
+    }
+
     // Calculate the remainders when dividing width and height by 8
     const widthRemainder = width % 8;
     const heightRemainder = height % 8;
 
-    // Subtract the remainders from width and height
+    // Subtract the remainders from width and height to make them divisible by 8
     const newWidth = width - widthRemainder;
     const newHeight = height - heightRemainder;
 
     return { width: newWidth, height: newHeight };
   }
+
 
   static saveBase64Image(base64String, outputPath) {
     // Remove the data URL prefix to get only the base64 data
