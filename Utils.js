@@ -13,8 +13,8 @@ class Utils {
       winston.format.json()
     ),
     transports: [
-      new winston.transports.File({ filename: 'utils-error.log', level: 'error' }),
-      new winston.transports.File({ filename: 'utils-combined.log' })
+      new winston.transports.File({ filename: './logs/utils.error.log', level: 'error' }),
+      new winston.transports.File({ filename: './logs/utils.combined.log' })
     ]
   });
 
