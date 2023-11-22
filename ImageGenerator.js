@@ -29,11 +29,11 @@ class ImageGenerator {
   }
 
   generatePrompt() {
-    const types = ["photo", "painting", "vector image", "digital art", "collage"];
-    const feelings = ["lonely", "excited", "sad", "depressed", "happy", "magical", "fucked up", "unhinged"];
-    const keywords = ["cyborg", "model", "time machine", "fireworks", "forest", "cityscape", "rain", "night", "snow", "80s hifi bar", "hack space", "office space", "corporation", "spaceship", "rocket ship", "rabbit", "emoji", "rock and roll"];
+    const types = ["Calligraphy", "relief painting", "mixed media", "Textile Art", "mosaic", "photograph", "painting", "watercolor", "vector image", "digital art", "charcoal drawing", "pencil drawing", "collage", "woodblock print", "etching"];
+    const feelings = ["vibrant", "mystical", "epic", "lonely", "excited", "sad", "depressed", "happy", "magical", "fucked up", "unhinged", "perfect", "adequate", "destroyed"];
+    const keywords = ["tulip", "Old school personal computer", "cyborg", "model", "time machine", "fireworks", "forest", "cityscape", "rain", "night", "snow", "80s hifi bar", "hack space", "office space", "corporation", "spaceship", "rocket ship", "rabbit", "emoji", "rock and roll", "thousand year old man", "dish from alinea", "perfect chair"];
     const styles = ["vibrant", "surreal", "photorealistic", "unhinged", "maximalist", "minimalist", "busy", "light", "airy"];
-    const artistStyles = ["Jean-Michel Basquiat", "Marlene Dumas", "keith haring", "picasso", "Yayoi Kusama", "hiroshi nagai", "murakami", "ansel adams", "robert maplethorpe", "Hiroshi Sugimoto", "Ai Weiwei",];
+    const artistStyles = ["andy warhol", "Georgia O'Keeffe", "Jackson Pollock", "Nam June Paik", "Mark Rothko", "Zaha Hadid", "Banksy", "Salvador Dalí", "Kara Walke", "Vincent van Gogh", "Katsushika Hokusai", "theaster gates", "Jean-Michel Basquiat", "Marlene Dumas", "keith haring", "picasso", "Yayoi Kusama", "hiroshi nagai", "murakami", "ansel adams", "robert maplethorpe", "Hiroshi Sugimoto", "Ai Weiwei",];
 
     const randomType = types[Math.floor(Math.random() * types.length)];
     const randomFeeling = feelings[Math.floor(Math.random() * feelings.length)];
