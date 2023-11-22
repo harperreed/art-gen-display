@@ -25,14 +25,17 @@ class ImageGenerator {
     return `a ${randomType} of a ${randomFeeling} ${randomKeyword} in ${randomStyle} style made by ${randomArtistStyle} for display in a museum `;
   }
 
-  async generateImageWithReplicate(prompt, width, height) {
+  async generateImageWithReplicate(prompt, originalWidth, originalHeight) {
 
-    const { newWidth, newHeight } = Utils.makeResolutionDivisibleBy8(width, height);
-
+    console.log("width", originalWidth)
+    console.log("height", originalHeight)
+    const { width, height } = Utils.makeResolutionDivisibleBy8(originalWidth, originalHeight);
+    console.log("new width", width)
+    console.log("new height", height)
     const negative_prompt = `(bad_prompt_version2:0.8), bad-artist, logo, dog, Glasses, Watermark, bad artist, helmet, blur, blurry, text, b&w, 3d, bad art, poorly drawn, disfigured, deformed, extra limbs, ugly hands, extra fingers, canvas frame, cartoon, 3d, ((disfigured)), ((bad art)), ((deformed)),((extra limbs)),((close up)),((b&w)), weird colors, blurry, (((duplicate))), ((morbid)), ((mutilated)), [out of frame], extra fingers, mutated hands, ((poorly drawn hands)), ((poorly drawn face)), (((mutation))), (((deformed))), ((ugly)), blurry, ((bad anatomy)), (((bad proportions))), ((extra limbs)), cloned face, (((disfigured))), out of frame, ugly, extra limbs, (bad anatomy), gross proportions, (malformed limbs), ((missing arms)), ((missing legs)), (((extra arms))), (((extra legs))), mutated hands, (fused fingers), (too many fingers), (((long neck))), Photoshop, video game, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, mutation, mutated, extra limbs, extra legs, extra arms, disfigured, deformed, cross-eye, body out of frame, blurry, bad art, bad anatomy, 3d render`;
     const replicateInput = {
-      width: newWidth,
-      height: newHeight,
+      width: width,
+      height: height,
       prompt: prompt,
       disable_safety_checker: true,
       refine: "expert_ensemble_refiner",
@@ -69,7 +72,9 @@ class ImageGenerator {
 
 
     if (output && output[0]) {
-      return output[0]; // Assuming this is the image URL
+      return {
+        imageUrl: output[0], generatorInput: replicateInput
+      }; // Assuming this is the image URL
     }
 
     return null;
