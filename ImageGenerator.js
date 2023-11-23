@@ -42,7 +42,7 @@ class ImageGenerator {
     const randomArtistStyle = data.artistStyles[Math.floor(Math.random() * data.artistStyles.length)];
 
     // Return the generated prompt
-    return `a ${randomType} of a ${randomFeeling} ${randomKeyword} in ${randomStyle} style made by ${randomArtistStyle} for display in a museum `;
+    return `a ${randomType} of a ${randomFeeling} ${randomKeyword} in ${randomStyle} style made by ${randomArtistStyle} that would appeal to tasteless oligarch`;
   }
 
   async generateImageWithReplicate(prompt, originalWidth, originalHeight) {
