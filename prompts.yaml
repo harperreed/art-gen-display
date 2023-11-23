@@ -1,101 +1,114 @@
 types:
-  - Calligraphy
-  - relief painting
-  - mixed media
-  - Textile Art
-  - mosaic
-  - photograph
-  - painting
-  - watercolor
-  - vector image
-  - digital art
+  - calligraphy
   - charcoal drawing
-  - pencil drawing
   - collage
-  - woodblock print
+  - digital art
   - etching
+  - mixed media
+  - mosaic
+  - painting
+  - pencil drawing
+  - photograph
+  - relief painting
+  - Textile Art
+  - vector image
+  - watercolor
+  - woodblock print
 
 feelings:
-  - vibrant
-  - mystical
-  - epic
-  - lonely
-  - excited
-  - sad
-  - depressed
-  - happy
-  - magical
-  - fucked up
-  - unhinged
-  - perfect
   - adequate
-  - destroyed
   - brutal
+  - depressed
+  - normal
+  - drug soaked
+  - destroyed
+  - dystopian
+  - epic
+  - excited
+  - fucked up
+  - futuristic
+  - happy
+  - haunting
+  - lonely
+  - magical
+  - mystical
+  - nostalgic
+  - perfect
+  - sad
+  - surreal
+  - unhinged
+  - utopian
+  - vibrant
+  - wartorn
 
 keywords:
-  - tulip
-  - Old school personal computer
+  - 80s hifi bar
+  - alien
+  - chicago
+  - cityscape
+  - corporation
   - cyborg
-  - model
-  - time machine
+  - dish from alinea
+  - emoji
   - fireworks
   - forest
-  - cityscape
-  - rain
-  - night
-  - snow
-  - 80s hifi bar
   - hack space
-  - office space
-  - corporation
-  - spaceship
-  - rocket ship
-  - rabbit
-  - emoji
-  - rock and roll
-  - thousand year old man
-  - dish from alinea
-  - perfect chair
-  - alien
   - Magician
-  - Santa Claus
-  - Snow Globe
   - Mainframe Computer
+  - model
+  - night
+  - office space
+  - Old school personal computer
+  - perfect chair
+  - rabbit
+  - rain
+  - rock and roll
+  - rocket ship
+  - Santa Claus
+  - snow
+  - Snow Globe
+  - spaceship
+  - street
+  - thousand year old man
+  - time machine
+  - tokyo street scene
+  - tulip
 
 styles:
-  - vibrant
-  - surreal
-  - photorealistic
-  - unhinged
-  - maximalist
-  - minimalist
+  - airy
   - busy
   - light
-  - airy
+  - maximalist
+  - minimalist
+  - photorealistic
+  - surreal
+  - unhinged
+  - vibrant
 
 artistStyles:
-  - andy warhol
-  - Georgia O'Keeffe
-  - Jackson Pollock
-  - Nam June Paik
-  - Mark Rothko
-  - Zaha Hadid
-  - Banksy
-  - Salvador Dalí
-  - Kara Walke
-  - Vincent van Gogh
-  - Katsushika Hokusai
-  - theaster gates
-  - Jean-Michel Basquiat
-  - Marlene Dumas
-  - keith haring
-  - picasso
-  - Yayoi Kusama
-  - hiroshi nagai
-  - murakami
-  - ansel adams
-  - robert maplethorpe
-  - Hiroshi Sugimoto
   - Ai Weiwei
-  - Shohei Otomo
+  - Andy Warhol
+  - Ansel Adams
+  - Banksy
+  - Georgia O'Keeffe
   - H.R. Giger
+  - Haruki Murakami
+  - Hiroshi Nagai
+  - Hiroshi Sugimoto
+  - Jackson Pollock
+  - Jean-Michel Basquiat
+  - Kara Walke
+  - Katsushika Hokusai
+  - keith haring
+  - Love and Rockets
+  - Mark Rothko
+  - Marlene Dumas
+  - Nam June Paik
+  - Pablo Picasso
+  - Robert Mapplethorpe
+  - Salvador Dalí
+  - Shohei Otomo
+  - Theaster Gates
+  - Vincent Van Gogh
+  - Yayoi Kusama
+  - Zaha Hadid
