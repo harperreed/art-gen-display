@@ -1,15 +1,18 @@
-const morgan = require('morgan');
-const winston = require('winston');
-const express = require('express');
-const path = require('path');
-const fs = require('fs').promises; // Import fs promises for async file operations
+import morgan from 'morgan';
+import winston from 'winston';
+import express from 'express';
+import path from 'path';
+import fs from 'fs/promises';
+import http from 'http';
+import Utils from './Utils.js';
+import { Server as SocketIOServer } from 'socket.io';
+import session from 'express-session';
+import sharedsession from 'express-socket.io-session';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const http = require('http');
-const Utils = require('./Utils');
-const https = require('https');
-const socketIo = require('socket.io');
-const session = require('express-session');
-const sharedsession = require("express-socket.io-session");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 class Server {
   constructor(port, imageGenerator, imageCache) {
@@ -18,7 +21,7 @@ class Server {
     this.imageCache = imageCache;
     this.app = express();
     this.server = http.createServer(this.app);
-    this.io = socketIo(this.server);
+    this.io = new SocketIOServer(this.server);
     this.setupExpress();
     this.setupSocketIO();
 
@@ -210,4 +213,4 @@ class Server {
 }
 
 
-module.exports = Server;
+export default Server;

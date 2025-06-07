@@ -1,6 +1,6 @@
-const path = require('path');
-const winston = require('winston');
-const fs = require('fs');
+import path from 'path';
+import winston from 'winston';
+import fs from 'fs';
 
 class ImageCache {
   constructor(cacheDir) {
@@ -42,4 +42,4 @@ class ImageCache {
   // Add other cache-related functions here
 }
 
-module.exports = ImageCache;
+export default ImageCache;

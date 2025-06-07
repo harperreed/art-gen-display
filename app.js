@@ -1,12 +1,16 @@
-const path = require('path');
+import path from 'path';
+import Replicate from 'replicate';
+import dotenv from 'dotenv';
+import ImageGenerator from './ImageGenerator.js';
+import ImageCache from './ImageCache.js';
+import Server from './Server.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const Replicate = require('replicate');
-require('dotenv').config();
+dotenv.config();
 
-// Import your custom classes
-const ImageGenerator = require('./ImageGenerator');
-const ImageCache = require('./ImageCache');
-const Server = require('./Server');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 
 const replicate = new Replicate({
@@ -21,3 +25,4 @@ const imageCache = new ImageCache(cacheDir);
 const server = new Server(port, imageGenerator, imageCache);
 
 server.start();
+

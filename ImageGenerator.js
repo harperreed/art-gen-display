@@ -1,10 +1,11 @@
-const Replicate = require('replicate');  // Import if needed in this file
-const axios = require('axios');
-const winston = require('winston');
-const Utils = require('./Utils');
-const fs = require('fs');
-const path = require('path');
-const yaml = require('js-yaml');
+import Replicate from 'replicate';
+import winston from 'winston';
+import Utils from './Utils.js';
+import fs from 'fs';
+import path from 'path';
+import yaml from 'js-yaml';
+
+// fetch is globally available in Node 18+
 
 class ImageGenerator {
   constructor(replicate) {
@@ -131,10 +132,13 @@ class ImageGenerator {
     this.logger.debug(`Local URL: ${url}`)
     this.logger.debug(`Local Payload: ${JSON.stringify(payload)}`)
     try {
-      const response = await axios.post(url, { input: payload });
-      // this.logger.debug('Replicate output:', response.data.output)
-      return response.data.output;
-      // return null
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: payload })
+      });
+      const data = await response.json();
+      return data.output;
     } catch (error) {
       this.logger.error('Error making the POST request:', error);
       return null;
@@ -145,4 +149,4 @@ class ImageGenerator {
 
 
 
-module.exports = ImageGenerator;
+export default ImageGenerator;

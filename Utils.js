@@ -1,9 +1,9 @@
 
-const fs = require('fs');
-const CryptoJS = require("crypto-js");
-const https = require('https');
-const http = require('http')
-const winston = require('winston');
+import fs from 'fs';
+import CryptoJS from 'crypto-js';
+import https from 'https';
+import http from 'http';
+import winston from 'winston';
 class Utils {
   static logger = winston.createLogger({
     level: 'info',
@@ -108,4 +108,4 @@ class Utils {
     return `${hash}-${width}x${height}.jpg`;
   }
 }
-module.exports = Utils;
+export default Utils;

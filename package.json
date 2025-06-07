@@ -1,6 +1,6 @@
 {
+  "type": "module",
   "dependencies": {
-    "axios": "^1.6.2",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
@@ -19,7 +19,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon --ignore cache --ignore logs app.js"
+    "dev": "nodemon --ignore cache --ignore logs app.js",
+    "test": "node --test"
   },
   "author": "",
   "license": "ISC",
